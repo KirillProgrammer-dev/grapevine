@@ -1,6 +1,6 @@
 <template>
     <div>
-        <p>fddsggfd</p>
+        
     </div>
 </template>
 
