@@ -2,7 +2,9 @@
   <div>
     <form>
       <div class="mb-3">
-        <label for="exampleInputEmail1" class="form-label">Электронная почта</label>
+        <label for="exampleInputEmail1" class="form-label"
+          >Электронная почта</label
+        >
         <input
           v-model="form.email"
           type="email"
@@ -33,7 +35,11 @@
         class="btn btn-primary"
         @click="getToken()"
       />
-      <div id="error" class="form-text" :style="'color:red; display:' + (isCorrect ? 'none' : 'block')">
+      <div
+        id="error"
+        class="form-text"
+        :style="'color:red; display:' + (isCorrect ? 'none' : 'block')"
+      >
         Вы ввели неверный пароль или логин
       </div>
     </form>
@@ -54,7 +60,7 @@ button {
 </style>
 
 <script>
-import store from "../store"
+import store from "../store";
 
 export default {
   data() {
@@ -68,9 +74,14 @@ export default {
   },
   methods: {
     getToken() {
-      store.dispatch("getToken", {email:this.form.email, password: this.form.password}).then(() => {
-        this.isCorrect = store.state.isCorrect;
-      });
+      store
+        .dispatch("getToken", {
+          email: this.form.email,
+          password: this.form.password,
+        })
+        .then(() => {
+          this.isCorrect = store.state.isCorrect;
+        });
     },
   },
 };

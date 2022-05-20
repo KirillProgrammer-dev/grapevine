@@ -2,15 +2,8 @@
   <div>
     <form>
       <div class="mb-3">
-        <label for="exampleInputEmail1" class="form-label"
-          >Имя</label
-        >
-        <input
-          v-model="form.name"
-          type="text"
-          class="form-control"
-          id="name"
-        />
+        <label for="exampleInputEmail1" class="form-label">Имя</label>
+        <input v-model="form.name" type="text" class="form-control" id="name" />
       </div>
       <div class="mb-3">
         <label for="exampleInputEmail1" class="form-label"
@@ -78,26 +71,8 @@ export default {
     };
   },
   methods: {
-    createUser(){
-        axios
-        .post("api/register", {
-            name: this.form.name,
-            email: this.form.email,
-            password: this.form.password,
-        })
-        .then((response) => {
-            console.log("User registrated");
-        });
-        },
-    getToken() {
-      store
-        .dispatch("getToken", {
-          email: this.form.email,
-          password: this.form.password,
-        })
-        .then(() => {
-          this.isCorrect = store.state.isCorrect;
-        });
+    createUser() {
+      store.dispatch("registration", {name: this.form.name, email: this.form.email, password: this.form.password});
     },
   },
 };

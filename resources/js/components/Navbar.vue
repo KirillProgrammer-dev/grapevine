@@ -16,24 +16,22 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
           <ul class="navbar-nav">
-            <li class="nav-item">
-              <a class="nav-link active" aria-current="page" link href="/">Главная</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" link href="/login">Войти</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Pricing</a>
-            </li>
-            <li class="nav-item">
-              <a
-                class="nav-link disabled"
-                href="#"
-                tabindex="-1"
-                aria-disabled="true"
-                >Disabled</a
-              >
-            </li>
+            <div v-if="!auth">
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" link href="/">Главная</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" link href="/login">Войти</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" link href="/register">Регистрация</a>
+              </li>
+            </div>
+            <div v-else>
+              <li class="nav-item">
+                <a class="nav-link" link href="/logout">Выйти</a>
+              </li>
+            </div>
           </ul>
         </div>
       </div>
@@ -48,7 +46,11 @@
 import store from "../store"
 
 export default {
+  data: () => ({
+    auth: false,
+  }), 
   mounted(){
+    store.dispatch("checkAuth") ? this.auth = true : this.auth = false;
   }
 };
 </script>
