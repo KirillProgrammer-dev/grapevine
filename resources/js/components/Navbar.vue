@@ -15,8 +15,7 @@
           <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
-          <ul class="navbar-nav">
-            <div v-if="!auth">
+          <ul v-if="!auth" class="navbar-nav">
               <li class="nav-item">
                 <a class="nav-link active" aria-current="page" link href="/">Главная</a>
               </li>
@@ -26,13 +25,12 @@
               <li class="nav-item">
                 <a class="nav-link" link href="/register">Регистрация</a>
               </li>
-            </div>
-            <div v-else>
-              <li class="nav-item">
-                <a class="nav-link" link href="/logout">Выйти</a>
-              </li>
-            </div>
           </ul>
+            <ul v-else class="navbar-nav">
+              <li class="nav-item">
+                <a class="nav-link" link @click="logoutUser()">Выйти</a>
+              </li>
+            </ul>
         </div>
       </div>
     </nav>
@@ -49,8 +47,22 @@ export default {
   data: () => ({
     auth: false,
   }), 
+  methods:{
+    logoutUser(){
+      store.dispatch('logout').then(()=>{
+        localStorage.clear();
+        store.dispatch("checkAuth").then((response)=>{
+            response ? this.auth = true : this.auth = false;
+        });
+      });
+    },
+  },
+  
   mounted(){
-    store.dispatch("checkAuth") ? this.auth = true : this.auth = false;
+    store.dispatch("checkAuth").then((response)=>{
+        response ? this.auth = true : this.auth = false;
+    });
+    console.log(this.auth);
   }
 };
 </script>

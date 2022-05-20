@@ -24,6 +24,7 @@ class UserController extends Controller
             //}
 
             $token = $user->createToken($request->device_name, $abilities)->plainTextToken;
+            $user->remember_token = $token;
             $user->save();
 
             return response($token, 201);
@@ -42,9 +43,14 @@ class UserController extends Controller
 
         $abilities = ['*'];
         $token = $user->createToken($request->device_name, $abilities)->plainTextToken;
+        $user->remember_token = $token;
 
         $user->save();
 
         return response($token, 201);
+    }
+
+    public function logout(Request $request){
+        $request->user()->currentAccessToken()->delete();
     }
 }
