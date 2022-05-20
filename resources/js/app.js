@@ -6,9 +6,9 @@ import axios from 'axios'
 import Vuetify from './plugins/vuetify'
 
 Vue.use(VueRouter);
-Vue.component('App', require('./App.vue').default);
 
 import store from "./store"
+import App from './App.vue'
 import Main from './views-vue/Main.vue'
 import Login from './views-vue/Login.vue'
 import Register from './views-vue/Register.vue'
@@ -27,15 +27,15 @@ const router = new VueRouter({
     },
     {
         path: '/',
-        name: 'App',
-        component: App,
+        name: 'Main',
+        component: Main,
     },
     ]
 });
 
 const app = new Vue({
     vuetify: Vuetify,
-    el: '#app',
     router,
     store,
-});
+    render: (h) => h(App),
+}).$mount('#app');
