@@ -5443,8 +5443,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
@@ -5452,8 +5450,25 @@ __webpack_require__.r(__webpack_exports__);
       auth: false
     };
   },
+  methods: {
+    logoutUser: function logoutUser() {
+      var _this = this;
+
+      _store__WEBPACK_IMPORTED_MODULE_0__["default"].dispatch('logout').then(function () {
+        localStorage.clear();
+        _store__WEBPACK_IMPORTED_MODULE_0__["default"].dispatch("checkAuth").then(function (response) {
+          response ? _this.auth = true : _this.auth = false;
+        });
+      });
+    }
+  },
   mounted: function mounted() {
-    _store__WEBPACK_IMPORTED_MODULE_0__["default"].dispatch("checkAuth") ? this.auth = true : this.auth = false;
+    var _this2 = this;
+
+    _store__WEBPACK_IMPORTED_MODULE_0__["default"].dispatch("checkAuth").then(function (response) {
+      response ? _this2.auth = true : _this2.auth = false;
+    });
+    console.log(this.auth);
   }
 });
 
@@ -29554,17 +29569,31 @@ var render = function () {
               attrs: { id: "navbarNav" },
             },
             [
-              _c("ul", { staticClass: "navbar-nav" }, [
-                !_vm.auth
-                  ? _c("div", [
-                      _vm._m(1),
-                      _vm._v(" "),
-                      _vm._m(2),
-                      _vm._v(" "),
-                      _vm._m(3),
-                    ])
-                  : _c("div", [_vm._m(4)]),
-              ]),
+              !_vm.auth
+                ? _c("ul", { staticClass: "navbar-nav" }, [
+                    _vm._m(1),
+                    _vm._v(" "),
+                    _vm._m(2),
+                    _vm._v(" "),
+                    _vm._m(3),
+                  ])
+                : _c("ul", { staticClass: "navbar-nav" }, [
+                    _c("li", { staticClass: "nav-item" }, [
+                      _c(
+                        "a",
+                        {
+                          staticClass: "nav-link",
+                          attrs: { link: "" },
+                          on: {
+                            click: function ($event) {
+                              return _vm.logoutUser()
+                            },
+                          },
+                        },
+                        [_vm._v("Выйти")]
+                      ),
+                    ]),
+                  ]),
             ]
           ),
         ]),
@@ -29629,18 +29658,6 @@ var staticRenderFns = [
         "a",
         { staticClass: "nav-link", attrs: { link: "", href: "/register" } },
         [_vm._v("Регистрация")]
-      ),
-    ])
-  },
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("li", { staticClass: "nav-item" }, [
-      _c(
-        "a",
-        { staticClass: "nav-link", attrs: { link: "", href: "/logout" } },
-        [_vm._v("Выйти")]
       ),
     ])
   },
