@@ -5863,7 +5863,10 @@ var routes = [{
   component: _views_vue_Profile_vue__WEBPACK_IMPORTED_MODULE_3__["default"],
   beforeEnter: function beforeEnter(to, from, next) {
     _store__WEBPACK_IMPORTED_MODULE_4__["default"].dispatch("checkAuth").then(function (result) {
-      result ? next("/profile") : next();
+      console.log(result);
+    });
+    _store__WEBPACK_IMPORTED_MODULE_4__["default"].dispatch("checkAuth").then(function (result) {
+      result ? next() : next("/");
     });
   }
 }];

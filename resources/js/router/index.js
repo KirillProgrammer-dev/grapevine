@@ -29,7 +29,10 @@ const routes = [{
     component: Profile,
     beforeEnter: (to, from, next) => {
         store.dispatch("checkAuth").then((result) => {
-            result ? next("/profile") : next();
+            console.log(result)
+        })
+        store.dispatch("checkAuth").then((result) => {
+            result ? next() : next("/");
         });
     },
 },
