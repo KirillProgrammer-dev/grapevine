@@ -5623,6 +5623,17 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({});
 
 /***/ }),
@@ -29979,7 +29990,30 @@ var render = function () {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div")
+  return _c(
+    "v-app",
+    [
+      _c(
+        "v-card",
+        { attrs: { elevation: "0" } },
+        [
+          _c(
+            "v-row",
+            [
+              _c("v-icon", [_c("span", [_vm._v("ИИ")])]),
+              _vm._v(" "),
+              _c("v-card-title", [
+                _vm._v("\n                Иванов Иван Иванович\n            "),
+              ]),
+            ],
+            1
+          ),
+        ],
+        1
+      ),
+    ],
+    1
+  )
 }
 var staticRenderFns = []
 render._withStripped = true
