@@ -53,4 +53,9 @@ class UserController extends Controller
     public function logout(Request $request){
         $request->user()->currentAccessToken()->delete();
     }
+
+    public function getUser(Request $request){
+        $user = User::where("remember_token", $request->token)->get()->first();
+        return json_encode($user);
+    }
 }
