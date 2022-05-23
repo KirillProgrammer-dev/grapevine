@@ -7,7 +7,7 @@
       "
     >
       <div class="container-fluid">
-        <a class="navbar-brand" href="#">Flance</a>
+        <a class="navbar-brand" href="#"><img style="width: 7em;" src="img/icons/big white.png"/></a>
         <button
           class="navbar-toggler"
           type="button"

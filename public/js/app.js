@@ -30245,11 +30245,9 @@ var render = function () {
       },
       [
         _c("div", { staticClass: "container-fluid" }, [
-          _c("a", { staticClass: "navbar-brand", attrs: { href: "#" } }, [
-            _vm._v("Flance"),
-          ]),
-          _vm._v(" "),
           _vm._m(0),
+          _vm._v(" "),
+          _vm._m(1),
           _vm._v(" "),
           _c(
             "div",
@@ -30260,16 +30258,16 @@ var render = function () {
             [
               !_vm.auth
                 ? _c("ul", { staticClass: "navbar-nav" }, [
-                    _vm._m(1),
-                    _vm._v(" "),
                     _vm._m(2),
                     _vm._v(" "),
                     _vm._m(3),
+                    _vm._v(" "),
+                    _vm._m(4),
                   ])
                 : _c("ul", { staticClass: "navbar-nav" }, [
-                    _vm._m(4),
-                    _vm._v(" "),
                     _vm._m(5),
+                    _vm._v(" "),
+                    _vm._m(6),
                     _vm._v(" "),
                     _c("li", { staticClass: "nav-item" }, [
                       _c(
@@ -30295,6 +30293,17 @@ var render = function () {
   ])
 }
 var staticRenderFns = [
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("a", { staticClass: "navbar-brand", attrs: { href: "#" } }, [
+      _c("img", {
+        staticStyle: { width: "7em" },
+        attrs: { src: "img/icons/big white.png" },
+      }),
+    ])
+  },
   function () {
     var _vm = this
     var _h = _vm.$createElement
