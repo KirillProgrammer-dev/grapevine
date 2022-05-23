@@ -39,6 +39,11 @@ class UserController extends Controller
         $user->password = Hash::make($request->password);
         $user->name = $request->name;
         $user->email = $request->email;
+        $user->class = $request->class;
+        $user->skills = $request->skills;
+        $user->describtion = $request->describtion;
+        $user->img_url = " ";
+        $user->works = " ";
         $user->save();
 
         $abilities = ['*'];

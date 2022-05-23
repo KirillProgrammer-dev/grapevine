@@ -17,7 +17,8 @@ return new class extends Migration
             $table->id();
             $table->string("title");
             $table->string("description");
-            $table->string("price");
+            $table->string("min_price");
+            $table->string("max_price");
             $table->string("deadline");
             $table->string("img");
             $table->string("customer");

@@ -2,85 +2,27 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoretasksRequest;
-use App\Http\Requests\UpdatetasksRequest;
-use App\Models\tasks;
+use Illuminate\Http\Request;
+use App\Models\Task;
+use App\Models\User;
 
 class TasksController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
-    }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
+    public function addServices(Request $request){
+        $task = new Task;
+        $task->title = $request->title;
+        $task->describtion = $request->describtion;
+        $task->deadline = $request->deadline;
+        $task->min_price = $request->min_price;
+        $task->max_price = $request->max_price;
+        $task->img = "";
+        $id = User::where("remember_token", $request->user()->currentAccessToken())->get()->first()->id;
+        $task->executer = $id;
+        $task->customer = "";
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \App\Http\Requests\StoretasksRequest  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(StoretasksRequest $request)
-    {
-        //
+        $task->save();
+        return response("created", 201);
     }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\tasks  $tasks
-     * @return \Illuminate\Http\Response
-     */
-    public function show(tasks $tasks)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\tasks  $tasks
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(tasks $tasks)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \App\Http\Requests\UpdatetasksRequest  $request
-     * @param  \App\Models\tasks  $tasks
-     * @return \Illuminate\Http\Response
-     */
-    public function update(UpdatetasksRequest $request, tasks $tasks)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\tasks  $tasks
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(tasks $tasks)
-    {
-        //
-    }
+    
 }

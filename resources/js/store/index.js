@@ -13,6 +13,8 @@ export default new Vuex.Store({
         user: null,
         //верность пароля
         isCorrect: true,
+        //Услуги
+        services: []
     },
     getters: {
         isLoggedIn(state) {
@@ -26,6 +28,22 @@ export default new Vuex.Store({
         },
     },
     actions: {
+        add_service(store, payload) {
+            let token = store.state.token; 
+            return axios.
+                post("/api/add-services", {
+                    title: payload.title,
+                    describtion: payload.describtion,
+                    deadline: payload.deadline,
+                    min_price: payload.min_price,
+                    max_price: payload.max_price,
+                }, {
+                    headers: {
+                        Authorization: "Bearer " + token,
+                    }
+                })
+        },
+
         getToken(store, payload) {
             return axios
                 .post("/api/token", {
@@ -46,16 +64,19 @@ export default new Vuex.Store({
         },
         registration(store, payload) {
             return axios
-                    .post("/api/registration", {
-                        name: payload.name,
-                        email: payload.email,
-                        password: payload.password,
-                        device_name: navigator.userAgent,
-                    })
-                    .then((response) => {
-                        store.commit("setToken", { token: response.data });
-                        window.location = "/";
-                    });
+                .post("/api/registration", {
+                    name: payload.name,
+                    email: payload.email,
+                    password: payload.password,
+                    class: payload.class,
+                    skills: payload.skills,
+                    describtion: payload.describtion,
+                    device_name: navigator.userAgent,
+                })
+                .then((response) => {
+                    store.commit("setToken", { token: response.data });
+                    window.location = "/";
+                });
         },
         checkAuth(store) {
             const token = store.state.token;

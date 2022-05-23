@@ -5753,6 +5753,89 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
@@ -5765,6 +5848,16 @@ __webpack_require__.r(__webpack_exports__);
         "class": null,
         skills: [],
         works: []
+      },
+      services: [],
+      overlay: false,
+      e1: 1,
+      task: {
+        title: "",
+        describtion: "",
+        deadline: 1,
+        min_price: 100,
+        max_price: 1000
       }
     };
   },
@@ -5772,7 +5865,6 @@ __webpack_require__.r(__webpack_exports__);
     getUser: function getUser() {
       var _this = this;
 
-      //this.user = store.state.user;
       return axios.post("/api/user", {
         token: _store__WEBPACK_IMPORTED_MODULE_0__["default"].state.token
       }, {
@@ -5787,6 +5879,23 @@ __webpack_require__.r(__webpack_exports__);
         } else {
           console.log("none");
         }
+      });
+    },
+    add_service_overlay: function add_service_overlay() {
+      this.overlay = true;
+    },
+    add_service: function add_service() {
+      var _this2 = this;
+
+      _store__WEBPACK_IMPORTED_MODULE_0__["default"].dispatch("add_service", {
+        title: this.user.title,
+        describtion: this.user.describtion,
+        deadline: this.user.deadline,
+        min_price: this.user.min_price,
+        max_price: this.user.max_price
+      }).then(function (r) {
+        _this2.services = _store__WEBPACK_IMPORTED_MODULE_0__["default"].state.services;
+        _this2.overlay = false;
       });
     }
   },
@@ -5871,6 +5980,36 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
@@ -5892,7 +6031,10 @@ __webpack_require__.r(__webpack_exports__);
       _store__WEBPACK_IMPORTED_MODULE_0__["default"].dispatch("registration", {
         name: this.form.name,
         email: this.form.email,
-        password: this.form.password
+        password: this.form.password,
+        "class": this.form["class"],
+        skills: this.form.skills.join(),
+        describtion: this.form.describtion
       });
     }
   }
@@ -5991,7 +6133,19 @@ __webpack_require__.r(__webpack_exports__);
 
 
 vue__WEBPACK_IMPORTED_MODULE_2__["default"].use((vuetify__WEBPACK_IMPORTED_MODULE_3___default()));
-var opts = {};
+var opts = {
+  themes: {
+    light: {
+      primary: "#2196f3",
+      secondary: "#009688",
+      accent: "#ff5722",
+      error: "#f44336",
+      warning: "#ffc107",
+      info: "#3f51b5",
+      success: "#4caf50"
+    }
+  }
+};
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (new (vuetify__WEBPACK_IMPORTED_MODULE_3___default())(opts));
 
 /***/ }),
@@ -6082,7 +6236,9 @@ vue__WEBPACK_IMPORTED_MODULE_0__["default"].use(vuex__WEBPACK_IMPORTED_MODULE_1_
     // данные о пользователе
     user: null,
     //верность пароля
-    isCorrect: true
+    isCorrect: true,
+    //Услуги
+    services: []
   },
   getters: {
     isLoggedIn: function isLoggedIn(state) {
@@ -6096,6 +6252,20 @@ vue__WEBPACK_IMPORTED_MODULE_0__["default"].use(vuex__WEBPACK_IMPORTED_MODULE_1_
     }
   },
   actions: {
+    add_service: function add_service(store, payload) {
+      var token = store.state.token;
+      return axios.post("/api/add-services", {
+        title: payload.title,
+        describtion: payload.describtion,
+        deadline: payload.deadline,
+        min_price: payload.min_price,
+        max_price: payload.max_price
+      }, {
+        headers: {
+          Authorization: "Bearer " + token
+        }
+      });
+    },
     getToken: function getToken(store, payload) {
       return axios.post("/api/token", {
         email: payload.email,
@@ -6119,6 +6289,9 @@ vue__WEBPACK_IMPORTED_MODULE_0__["default"].use(vuex__WEBPACK_IMPORTED_MODULE_1_
         name: payload.name,
         email: payload.email,
         password: payload.password,
+        "class": payload["class"],
+        skills: payload.skills,
+        describtion: payload.describtion,
         device_name: navigator.userAgent
       }).then(function (response) {
         store.commit("setToken", {
@@ -11321,7 +11494,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.container[data-v-a76223da] {\n  width: 1100px;\n  padding-top: 30px;\n}\n.avatar[data-v-a76223da] {\n  display: flex;\n  justify-content: center;\n}\n.avatar_img[data-v-a76223da] {\n  width: 300px;\n  height: 300px;\n}\n.worker__name[data-v-a76223da] {\n  text-align: center;\n}\n.worker__rating[data-v-a76223da] {\n  display: flex;\n  justify-content: center;\n  align-items: center;\n}\n.list_star[data-v-a76223da] {\n  display: inline;\n}\n.list_star__img[data-v-a76223da] {\n  width: 50px;\n  height: 50px;\n}\n.worker_description__text[data-v-a76223da] {\n  font-size: 18px;\n}\n.worker_skills__list__item[data-v-a76223da] {\n  font-size: 18px;\n}\n.worker_contacts_form[data-v-a76223da] {\n  display: flex;\n}\n.worker_contacts_form__message__btn[data-v-a76223da] {\n  width: 180px;\n  height: 50px;\n  background-color: #1cb883;\n  color: white;\n  text-decoration: none;\n  border-radius: 10px;\n  text-align: center;\n  font-size: 30px;\n  padding-bottom: 10px;\n  margin-right: 20px;\n  margin-top: 20px;\n}\n.worker_contacts_form__message__btn[data-v-a76223da] :hover {\n  background-color: #35c897;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.cardStepper[data-v-a76223da] {\n  margin: 1em;\n  padding: 1em;\n}\n.container[data-v-a76223da] {\n  width: 1100px;\n  padding-top: 30px;\n}\n.avatar[data-v-a76223da] {\n  display: flex;\n  justify-content: center;\n}\n.avatar_img[data-v-a76223da] {\n  width: 300px;\n  height: 300px;\n}\n.worker__name[data-v-a76223da] {\n  text-align: center;\n}\n.worker__rating[data-v-a76223da] {\n  display: flex;\n  justify-content: center;\n  align-items: center;\n}\n.list_star[data-v-a76223da] {\n  display: inline;\n}\n.list_star__img[data-v-a76223da] {\n  width: 50px;\n  height: 50px;\n}\n.worker_description__text[data-v-a76223da] {\n  font-size: 18px;\n}\n.worker_skills__list__item[data-v-a76223da] {\n  font-size: 18px;\n}\n.worker_contacts_form[data-v-a76223da] {\n  display: flex;\n}\n.worker_contacts_form__message__btn[data-v-a76223da] {\n  width: 180px;\n  height: 50px;\n  background-color: #1cb883;\n  color: white;\n  text-decoration: none;\n  border-radius: 10px;\n  text-align: center;\n  font-size: 30px;\n  padding-bottom: 10px;\n  margin-right: 20px;\n  margin-top: 20px;\n}\n.worker_contacts_form__message__btn[data-v-a76223da] :hover {\n  background-color: #35c897;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -30226,91 +30399,327 @@ var render = function () {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "container" }, [
-    _c("div", { staticClass: "row" }, [
-      _c("div", { staticClass: "col-lg-6" }, [
-        _c("div", { staticClass: "worker" }, [
-          _vm._m(0),
-          _vm._v(" "),
-          _c("div", { staticClass: "worker_info" }, [
-            _c("h1", { staticClass: "worker__name" }, [
-              _vm._v(_vm._s(_vm.user.name)),
-            ]),
+  return _c("div", [
+    _c("div", { staticClass: "container" }, [
+      _c("div", { staticClass: "row" }, [
+        _c("div", { staticClass: "col-lg-6" }, [
+          _c("div", { staticClass: "worker" }, [
+            _vm._m(0),
             _vm._v(" "),
-            _c("div", { staticClass: "worker__rating" }, [
-              _c("h3", { staticClass: "worker_class" }, [
-                _vm._v(_vm._s(_vm.user.class)),
+            _c("div", { staticClass: "worker_info" }, [
+              _c("h1", { staticClass: "worker__name" }, [
+                _vm._v(_vm._s(_vm.user.name)),
               ]),
               _vm._v(" "),
-              _c(
-                "ul",
-                { staticClass: "list_stars" },
-                _vm._l(5, function (i) {
-                  return _c("li", { key: i, staticClass: "list_star" }, [
-                    _c("img", {
-                      staticClass: "list_star__img",
-                      attrs: {
-                        src: "https://cdn.icon-icons.com/icons2/38/PNG/512/star_favorite_5754.png",
-                        alt: "STAR",
-                      },
-                    }),
-                  ])
-                }),
-                0
-              ),
+              _c("div", { staticClass: "worker__rating" }, [
+                _c("h3", { staticClass: "worker_class" }, [
+                  _vm._v(_vm._s(_vm.user.class)),
+                ]),
+                _vm._v(" "),
+                _c(
+                  "ul",
+                  { staticClass: "list_stars" },
+                  _vm._l(5, function (i) {
+                    return _c("li", { key: i, staticClass: "list_star" }, [
+                      _c("img", {
+                        staticClass: "list_star__img",
+                        attrs: {
+                          src: "https://cdn.icon-icons.com/icons2/38/PNG/512/star_favorite_5754.png",
+                          alt: "STAR",
+                        },
+                      }),
+                    ])
+                  }),
+                  0
+                ),
+              ]),
             ]),
           ]),
         ]),
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "col-lg-6" }, [
-        _c("div", { staticClass: "worker_discription" }, [
-          _c("h2", { staticClass: "worker_description__title" }, [
-            _vm._v("Описание Фрилансера"),
+        _vm._v(" "),
+        _c("div", { staticClass: "col-lg-6" }, [
+          _c("div", { staticClass: "worker_discription" }, [
+            _c("h2", { staticClass: "worker_description__title" }, [
+              _vm._v("Описание Фрилансера"),
+            ]),
+            _vm._v(" "),
+            _c("p", { staticClass: "worker_description__text" }, [
+              _vm._v(_vm._s(_vm.user.describtion)),
+            ]),
           ]),
           _vm._v(" "),
-          _c("p", { staticClass: "worker_description__text" }, [
-            _vm._v(_vm._s(_vm.user.describtion)),
+          _c("div", { staticClass: "worker_skills" }, [
+            _c("h2", { staticClass: "worker_skills__title" }, [
+              _vm._v("Навыки"),
+            ]),
+            _vm._v(" "),
+            _c(
+              "ul",
+              { staticClass: "worker_skills__list" },
+              _vm._l(_vm.user.skills, function (skill) {
+                return _c(
+                  "li",
+                  { key: skill.id, staticClass: "worker_skills__list__item" },
+                  [
+                    _vm._v(
+                      "\n              " + _vm._s(skill) + "\n            "
+                    ),
+                  ]
+                )
+              }),
+              0
+            ),
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "worker_works" }, [
+            _c("h2", { staticClass: "worker_works__title" }, [
+              _vm._v("Работы"),
+            ]),
+            _vm._v(" "),
+            _c(
+              "ul",
+              { staticClass: "worker_skills__list" },
+              _vm._l(_vm.user.works, function (work) {
+                return _c(
+                  "li",
+                  { key: work.id, staticClass: "worker_skills__list__item" },
+                  [_vm._v("\n              " + _vm._s(work) + "\n            ")]
+                )
+              }),
+              0
+            ),
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "worker_contacts_form" }, [
+            _vm.user.class == "Заказчик"
+              ? _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-primary btn-lg btn-block text-white",
+                    staticStyle: { "margin-right": "1em" },
+                    on: {
+                      click: function ($event) {
+                        return _vm.add_service_overlay()
+                      },
+                    },
+                  },
+                  [_vm._v("\n            Добавить услугу\n          ")]
+                )
+              : _vm._e(),
+            _vm._v(" "),
+            _c(
+              "button",
+              {
+                staticClass: "btn btn-primary btn-lg btn-block text-white",
+                attrs: { type: "button" },
+              },
+              [_vm._v("\n            Редактировать профиль\n          ")]
+            ),
           ]),
         ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "worker_skills" }, [
-          _c("h2", { staticClass: "worker_skills__title" }, [_vm._v("Навыки")]),
-          _vm._v(" "),
-          _c(
-            "ul",
-            { staticClass: "worker_skills__list" },
-            _vm._l(_vm.user.skills, function (skill) {
-              return _c(
-                "li",
-                { key: skill.id, staticClass: "worker_skills__list__item" },
-                [_vm._v("\n            " + _vm._s(skill) + "\n          ")]
-              )
-            }),
-            0
-          ),
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "worker_works" }, [
-          _c("h2", { staticClass: "worker_works__title" }, [_vm._v("Работы")]),
-          _vm._v(" "),
-          _c(
-            "ul",
-            { staticClass: "worker_skills__list" },
-            _vm._l(_vm.user.works, function (work) {
-              return _c(
-                "li",
-                { key: work.id, staticClass: "worker_skills__list__item" },
-                [_vm._v("\n            " + _vm._s(work) + "\n          ")]
-              )
-            }),
-            0
-          ),
-        ]),
-        _vm._v(" "),
-        _vm._m(1),
       ]),
     ]),
+    _vm._v(" "),
+    _c("hr"),
+    _vm._v(" "),
+    _c(
+      "div",
+      [
+        _c(
+          "v-overlay",
+          { attrs: { value: _vm.overlay } },
+          [
+            _c(
+              "v-card",
+              { staticStyle: { background: "white", color: "black" } },
+              [
+                _c("v-card-title", [_vm._v(" Создание услуги ")]),
+                _vm._v(" "),
+                _c(
+                  "v-stepper",
+                  {
+                    model: {
+                      value: _vm.e1,
+                      callback: function ($$v) {
+                        _vm.e1 = $$v
+                      },
+                      expression: "e1",
+                    },
+                  },
+                  [
+                    _c(
+                      "v-stepper-header",
+                      [
+                        _c(
+                          "v-stepper-step",
+                          { attrs: { complete: _vm.e1 > 1, step: "1" } },
+                          [
+                            _vm._v(
+                              "\n              Название и описание\n            "
+                            ),
+                          ]
+                        ),
+                        _vm._v(" "),
+                        _c("v-divider"),
+                        _vm._v(" "),
+                        _c(
+                          "v-stepper-step",
+                          { attrs: { complete: _vm.e1 > 2, step: "2" } },
+                          [
+                            _vm._v(
+                              "\n              Дополнительная информация\n            "
+                            ),
+                          ]
+                        ),
+                      ],
+                      1
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "v-stepper-content",
+                      { attrs: { step: "1" } },
+                      [
+                        _c(
+                          "v-card",
+                          {
+                            staticClass: "mb-12 cardStepper",
+                            attrs: { color: "grey lighten-1", height: "200px" },
+                          },
+                          [
+                            _c("label", [_vm._v(" Название услуги ")]),
+                            _vm._v(" "),
+                            _c("v-text-field", {
+                              model: {
+                                value: _vm.task.title,
+                                callback: function ($$v) {
+                                  _vm.$set(_vm.task, "title", $$v)
+                                },
+                                expression: "task.title",
+                              },
+                            }),
+                            _vm._v(" "),
+                            _c("label", [_vm._v(" Описание услуги ")]),
+                            _vm._v(" "),
+                            _c("v-text-field", {
+                              model: {
+                                value: _vm.task.describtion,
+                                callback: function ($$v) {
+                                  _vm.$set(_vm.task, "describtion", $$v)
+                                },
+                                expression: "task.describtion",
+                              },
+                            }),
+                          ],
+                          1
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "v-btn",
+                          {
+                            attrs: { color: "primary" },
+                            on: {
+                              click: function ($event) {
+                                _vm.e1 = 2
+                              },
+                            },
+                          },
+                          [_vm._v(" Далее ")]
+                        ),
+                      ],
+                      1
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "v-stepper-content",
+                      { attrs: { step: "2" } },
+                      [
+                        _c(
+                          "v-card",
+                          {
+                            staticClass: "mb-12 cardStepper",
+                            attrs: { color: "grey lighten-1", height: "200px" },
+                          },
+                          [
+                            _c("label", [_vm._v(" Интервал цен ")]),
+                            _vm._v(" "),
+                            _c(
+                              "v-row",
+                              {
+                                staticClass:
+                                  "d-flex flex-row flex-nowrap justify-center",
+                                staticStyle: { width: "50%" },
+                              },
+                              [
+                                _c("v-text-field", {
+                                  attrs: { suffix: "₽" },
+                                  model: {
+                                    value: _vm.task.min_price,
+                                    callback: function ($$v) {
+                                      _vm.$set(_vm.task, "min_price", $$v)
+                                    },
+                                    expression: "task.min_price",
+                                  },
+                                }),
+                                _vm._v(" "),
+                                _c("v-text-field", {
+                                  attrs: { suffix: "₽" },
+                                  model: {
+                                    value: _vm.task.max_price,
+                                    callback: function ($$v) {
+                                      _vm.$set(_vm.task, "max_price", $$v)
+                                    },
+                                    expression: "task.max_price",
+                                  },
+                                }),
+                              ],
+                              1
+                            ),
+                            _vm._v(" "),
+                            _c("label", [
+                              _vm._v(" Укажите средний срок исполнения "),
+                            ]),
+                            _vm._v(" "),
+                            _c("v-text-field", {
+                              attrs: { type: "number", suffix: "дней" },
+                              model: {
+                                value: _vm.task.deadline,
+                                callback: function ($$v) {
+                                  _vm.$set(_vm.task, "deadline", $$v)
+                                },
+                                expression: "task.deadline",
+                              },
+                            }),
+                          ],
+                          1
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "v-btn",
+                          {
+                            attrs: { color: "primary" },
+                            on: {
+                              click: function ($event) {
+                                return _vm.add_service()
+                              },
+                            },
+                          },
+                          [_vm._v(" Отправить ")]
+                        ),
+                      ],
+                      1
+                    ),
+                  ],
+                  1
+                ),
+              ],
+              1
+            ),
+          ],
+          1
+        ),
+      ],
+      1
+    ),
   ])
 }
 var staticRenderFns = [
@@ -30326,30 +30735,6 @@ var staticRenderFns = [
           alt: "AVATAR",
         },
       }),
-    ])
-  },
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "worker_contacts_form" }, [
-      _c(
-        "button",
-        {
-          staticClass: "btn btn-primary btn-lg btn-block text-white",
-          staticStyle: { "margin-right": "1em" },
-        },
-        [_vm._v("Добавить услугу")]
-      ),
-      _vm._v(" "),
-      _c(
-        "button",
-        {
-          staticClass: "btn btn-primary btn-lg btn-block text-white",
-          attrs: { type: "button" },
-        },
-        [_vm._v("\n          Редактировать профиль")]
-      ),
     ])
   },
 ]
@@ -30475,6 +30860,144 @@ var render = function () {
             },
           },
         }),
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "mb-3" }, [
+        _c(
+          "label",
+          { staticClass: "form-label", attrs: { for: "describtion" } },
+          [_vm._v("Описание")]
+        ),
+        _vm._v(" "),
+        _c("input", {
+          directives: [
+            {
+              name: "model",
+              rawName: "v-model",
+              value: _vm.form.describtion,
+              expression: "form.describtion",
+            },
+          ],
+          staticClass: "form-control",
+          attrs: { type: "text", id: "describtion" },
+          domProps: { value: _vm.form.describtion },
+          on: {
+            input: function ($event) {
+              if ($event.target.composing) {
+                return
+              }
+              _vm.$set(_vm.form, "describtion", $event.target.value)
+            },
+          },
+        }),
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "mb-3" }, [
+        _c("label", { staticClass: "form-label", attrs: { for: "class" } }, [
+          _vm._v("Выберите роль"),
+        ]),
+        _vm._v(" "),
+        _c(
+          "select",
+          {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.form.class,
+                expression: "form.class",
+              },
+            ],
+            staticClass: "form-select",
+            attrs: { "aria-label": "Вы хотите быть" },
+            on: {
+              change: function ($event) {
+                var $$selectedVal = Array.prototype.filter
+                  .call($event.target.options, function (o) {
+                    return o.selected
+                  })
+                  .map(function (o) {
+                    var val = "_value" in o ? o._value : o.value
+                    return val
+                  })
+                _vm.$set(
+                  _vm.form,
+                  "class",
+                  $event.target.multiple ? $$selectedVal : $$selectedVal[0]
+                )
+              },
+            },
+          },
+          [
+            _c("option", { attrs: { value: "Исполнитель", selected: "" } }, [
+              _vm._v("Исполнитель"),
+            ]),
+            _vm._v(" "),
+            _c("option", { attrs: { value: "Заказчик" } }, [
+              _vm._v("Заказчик"),
+            ]),
+          ]
+        ),
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "mb-3" }, [
+        _c("label", { staticClass: "form-label", attrs: { for: "class" } }, [
+          _vm._v("Выберите знания"),
+        ]),
+        _vm._v(" "),
+        _c(
+          "select",
+          {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.form.skills,
+                expression: "form.skills",
+              },
+            ],
+            staticClass: "form-select",
+            attrs: { multiple: "", "aria-label": "Выберите знания" },
+            on: {
+              change: function ($event) {
+                var $$selectedVal = Array.prototype.filter
+                  .call($event.target.options, function (o) {
+                    return o.selected
+                  })
+                  .map(function (o) {
+                    var val = "_value" in o ? o._value : o.value
+                    return val
+                  })
+                _vm.$set(
+                  _vm.form,
+                  "skills",
+                  $event.target.multiple ? $$selectedVal : $$selectedVal[0]
+                )
+              },
+            },
+          },
+          [
+            _c("option", { attrs: { value: "PHP", selected: "" } }, [
+              _vm._v("PHP"),
+            ]),
+            _vm._v(" "),
+            _c("option", { attrs: { value: "Python" } }, [_vm._v("Python")]),
+            _vm._v(" "),
+            _c("option", { attrs: { value: "HTML" } }, [_vm._v("HTML")]),
+            _vm._v(" "),
+            _c("option", { attrs: { value: "CSS" } }, [_vm._v("CSS")]),
+            _vm._v(" "),
+            _c("option", { attrs: { value: "C++" } }, [_vm._v("C++")]),
+            _vm._v(" "),
+            _c("option", { attrs: { value: "JS" } }, [_vm._v("JS")]),
+            _vm._v(" "),
+            _c("option", { attrs: { value: "Golang" } }, [_vm._v("Golang")]),
+            _vm._v(" "),
+            _c("option", { attrs: { value: "C#" } }, [_vm._v("C#")]),
+            _vm._v(" "),
+            _c("option", { attrs: { value: "Java" } }, [_vm._v("Java")]),
+          ]
+        ),
       ]),
       _vm._v(" "),
       _c("input", {
