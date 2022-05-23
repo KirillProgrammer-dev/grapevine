@@ -30668,7 +30668,7 @@ var render = function () {
             "div",
             { staticClass: "worker_contacts_form" },
             [
-              _vm.user.class == "Заказчик"
+              _vm.user.class == "Исполнитель"
                 ? _c(
                     "v-btn",
                     {
@@ -30894,7 +30894,7 @@ var render = function () {
           1
         ),
         _vm._v(" "),
-        _vm.user.class == "Заказчик"
+        _vm.user.class == "Исполнитель"
           ? _c(
               "div",
               { staticClass: "services" },
@@ -30990,7 +30990,7 @@ var render = function () {
                               },
                               [
                                 _vm._v(
-                                  "\n              Написать заказчику\n            "
+                                  "\n              Написать исполнителю\n            "
                                 ),
                               ]
                             ),

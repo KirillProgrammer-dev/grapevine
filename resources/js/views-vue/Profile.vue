@@ -60,7 +60,7 @@
           </div>
           <div class="worker_contacts_form">
             <v-btn
-              v-if="user.class == 'Заказчик'"
+              v-if="user.class == 'Исполнитель'"
               :color="$vuetify.theme.themes.light.primary"
               style="margin-right: 1em;"
               @click="add_service_overlay()"
@@ -141,7 +141,7 @@
           </v-stepper>
         </v-card>
       </v-overlay>
-      <div v-if="user.class == 'Заказчик'" class="services">
+      <div v-if="user.class == 'Исполнитель'" class="services">
         <div v-for="service in services" :key="service.id" class="service">
           <v-card style="
           display: flex;
@@ -173,7 +173,7 @@
               :color="$vuetify.theme.themes.light.primary"
               style="color: black;"
               >
-                Написать заказчику
+                Написать исполнителю
               </v-btn>
                <v-btn
                 class="mx-2"
