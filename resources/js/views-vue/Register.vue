@@ -2,41 +2,45 @@
   <div>
     <form>
       <div class="mb-3">
-        <label for="exampleInputEmail1" class="form-label">Имя</label>
-        <input v-model="form.name" type="text" class="form-control" id="name" />
+        <label for="name" class="form-label">Имя</label>
+        <input
+          v-model="form.name"
+          type="text"
+          class="form-control"
+          id="name"
+          aria-describedby="nameHelp"
+          placeholder="Иванов Иван Иванович"
+        />
       </div>
+
       <div class="mb-3">
-        <label for="exampleInputEmail1" class="form-label"
-          >Электронная почта</label
-        >
+        <label for="email" class="form-label">Электронная почта</label>
         <input
           v-model="form.email"
           type="email"
           class="form-control"
-          id="exampleInputEmail1"
+          id="email"
           aria-describedby="emailHelp"
+          placeholder="test@test.com"
         />
         <div id="emailHelp" class="form-text">
           Мы никогда не поделимся вашей почтой с другими
         </div>
       </div>
+
       <div class="mb-3">
-        <label for="exampleInputPassword1" class="form-label">Пароль</label>
+        <label for="password" class="form-label">Пароль</label>
         <input
           v-model="form.password"
           type="password"
           class="form-control"
-          id="exampleInputPassword1"
+          id="password"
         />
       </div>
-      <!-- <div class="mb-3 form-check">
-        <input type="checkbox" class="form-check-input" id="exampleCheck1" />
-        <label class="form-check-label" for="exampleCheck1">Check me out</label>
-      </div> -->
       <input
         value="Зарегистрироваться"
         type="button"
-        class="btn btn-primary"
+        class="btn btn-primary text-white"
         @click="createUser()"
       />
     </form>
@@ -65,14 +69,22 @@ export default {
       form: {
         name: null,
         email: null,
-        password: null,
+        describtion: null,
+        img_url: null,
+        class: null,
+        skills: [],
+        works: [],
       },
       isCorrect: store.state.isCorrect,
     };
   },
   methods: {
     createUser() {
-      store.dispatch("registration", {name: this.form.name, email: this.form.email, password: this.form.password});
+      store.dispatch("registration", {
+        name: this.form.name,
+        email: this.form.email,
+        password: this.form.password,
+      });
     },
   },
 };

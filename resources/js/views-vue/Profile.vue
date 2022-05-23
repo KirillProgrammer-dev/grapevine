@@ -144,7 +144,6 @@ export default {
         name: null,
         email: null,
         describtion: null,
-        password: null,
         img_url: null,
         class: null,
         skills: [],

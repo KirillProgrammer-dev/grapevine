@@ -5553,10 +5553,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
@@ -5765,7 +5761,6 @@ __webpack_require__.r(__webpack_exports__);
         name: null,
         email: null,
         describtion: null,
-        password: null,
         img_url: null,
         "class": null,
         skills: [],
@@ -5872,6 +5867,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
@@ -5879,7 +5878,11 @@ __webpack_require__.r(__webpack_exports__);
       form: {
         name: null,
         email: null,
-        password: null
+        describtion: null,
+        img_url: null,
+        "class": null,
+        skills: [],
+        works: []
       },
       isCorrect: _store__WEBPACK_IMPORTED_MODULE_0__["default"].state.isCorrect
     };
@@ -30154,7 +30157,7 @@ var render = function () {
       ]),
       _vm._v(" "),
       _c("input", {
-        staticClass: "btn btn-primary",
+        staticClass: "btn btn-primary text-white",
         attrs: { value: "Войти", type: "button" },
         on: {
           click: function ($event) {
@@ -30375,11 +30378,9 @@ var render = function () {
   return _c("div", [
     _c("form", [
       _c("div", { staticClass: "mb-3" }, [
-        _c(
-          "label",
-          { staticClass: "form-label", attrs: { for: "exampleInputEmail1" } },
-          [_vm._v("Имя")]
-        ),
+        _c("label", { staticClass: "form-label", attrs: { for: "name" } }, [
+          _vm._v("Имя"),
+        ]),
         _vm._v(" "),
         _c("input", {
           directives: [
@@ -30391,7 +30392,12 @@ var render = function () {
             },
           ],
           staticClass: "form-control",
-          attrs: { type: "text", id: "name" },
+          attrs: {
+            type: "text",
+            id: "name",
+            "aria-describedby": "nameHelp",
+            placeholder: "Иванов Иван Иванович",
+          },
           domProps: { value: _vm.form.name },
           on: {
             input: function ($event) {
@@ -30405,11 +30411,9 @@ var render = function () {
       ]),
       _vm._v(" "),
       _c("div", { staticClass: "mb-3" }, [
-        _c(
-          "label",
-          { staticClass: "form-label", attrs: { for: "exampleInputEmail1" } },
-          [_vm._v("Электронная почта")]
-        ),
+        _c("label", { staticClass: "form-label", attrs: { for: "email" } }, [
+          _vm._v("Электронная почта"),
+        ]),
         _vm._v(" "),
         _c("input", {
           directives: [
@@ -30423,8 +30427,9 @@ var render = function () {
           staticClass: "form-control",
           attrs: {
             type: "email",
-            id: "exampleInputEmail1",
+            id: "email",
             "aria-describedby": "emailHelp",
+            placeholder: "test@test.com",
           },
           domProps: { value: _vm.form.email },
           on: {
@@ -30445,14 +30450,9 @@ var render = function () {
       ]),
       _vm._v(" "),
       _c("div", { staticClass: "mb-3" }, [
-        _c(
-          "label",
-          {
-            staticClass: "form-label",
-            attrs: { for: "exampleInputPassword1" },
-          },
-          [_vm._v("Пароль")]
-        ),
+        _c("label", { staticClass: "form-label", attrs: { for: "password" } }, [
+          _vm._v("Пароль"),
+        ]),
         _vm._v(" "),
         _c("input", {
           directives: [
@@ -30464,7 +30464,7 @@ var render = function () {
             },
           ],
           staticClass: "form-control",
-          attrs: { type: "password", id: "exampleInputPassword1" },
+          attrs: { type: "password", id: "password" },
           domProps: { value: _vm.form.password },
           on: {
             input: function ($event) {
@@ -30478,7 +30478,7 @@ var render = function () {
       ]),
       _vm._v(" "),
       _c("input", {
-        staticClass: "btn btn-primary",
+        staticClass: "btn btn-primary text-white",
         attrs: { value: "Зарегистрироваться", type: "button" },
         on: {
           click: function ($event) {

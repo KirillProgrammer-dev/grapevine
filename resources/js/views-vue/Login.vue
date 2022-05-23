@@ -25,14 +25,10 @@
           id="exampleInputPassword1"
         />
       </div>
-      <!-- <div class="mb-3 form-check">
-        <input type="checkbox" class="form-check-input" id="exampleCheck1" />
-        <label class="form-check-label" for="exampleCheck1">Check me out</label>
-      </div> -->
       <input
         value="Войти"
         type="button"
-        class="btn btn-primary"
+        class="btn btn-primary text-white"
         @click="getToken()"
       />
       <div
