@@ -19,7 +19,7 @@
                 <ul class="list_stars">
                   <li class="list_star" v-for="i in 5" :key="i">
                     <img
-                      src="https://cdn.icon-icons.com/icons2/38/PNG/512/star_favorite_5754.png"
+                      src="https://w7.pngwing.com/pngs/229/173/png-transparent-star-star-angle-white-triangle.png"
                       alt="STAR"
                       class="list_star__img"
                     />
@@ -59,20 +59,19 @@
             </ul>
           </div>
           <div class="worker_contacts_form">
-            <button
+            <v-btn
               v-if="user.class == 'Заказчик'"
-              class="btn btn-primary btn-lg btn-block text-white"
-              style="margin-right: 1em"
+              :color="$vuetify.theme.themes.light.primary"
+              style="margin-right: 1em;"
               @click="add_service_overlay()"
             >
               Добавить услугу
-            </button>
-            <button
-              type="button"
-              class="btn btn-primary btn-lg btn-block text-white"
+            </v-btn>
+            <v-btn
+              :color="$vuetify.theme.themes.light.primary"
             >
               Редактировать профиль
-            </button>
+            </v-btn>
           </div>
         </div>
       </div>
@@ -144,13 +143,49 @@
       </v-overlay>
       <div v-if="user.class == 'Заказчик'" class="services">
         <div v-for="service in services" :key="service.id" class="service">
-          <v-card>
+          <v-card style="
+          display: flex;
+          flex-direction: column;
+          flex-wrap: nowrap;
+          width: 25em;
+          justify-content: center;
+          align-content: center;
+          ">
             <v-card-title>
               {{ service.title }}
+              <v-img src="https://makewebsite.ru/wp-content/uploads/2020/09/2.jpg"></v-img>
             </v-card-title>
-            <v-card-text>
+            <v-card-subtitle style="font-size: 1.1em;margin-top:0.5em">
               {{ service.description }}
+            </v-card-subtitle>
+            <v-divider  class="mx-4"/>
+            <v-card-text>
+              <div>
+                От {{ service.min_price }}₽ <br>
+                До {{ service.max_price }}₽
+              </div>
+              <div>
+                Средний срок исполнения {{ service.deadline }} дней
+              </div>
             </v-card-text>
+            <v-card-actions>
+              <v-btn
+              :color="$vuetify.theme.themes.light.primary"
+              style="color: black;"
+              >
+                Написать заказчику
+              </v-btn>
+               <v-btn
+                class="mx-2"
+                fab
+                small
+                style="background: pink; color: white;"
+              >
+                <v-icon>
+                  mdi-heart
+                </v-icon>
+              </v-btn>
+            </v-card-actions>
           </v-card>
         </div>
       </div>

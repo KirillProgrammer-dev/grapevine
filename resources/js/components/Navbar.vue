@@ -1,8 +1,13 @@
 <template>
   <div>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <nav
+      class="navbar navbar-expand-lg"
+      :style="
+        'color: white; background:' + $vuetify.theme.themes.light.secondary
+      "
+    >
       <div class="container-fluid">
-        <a class="navbar-brand" href="#">Фриланс</a>
+        <a class="navbar-brand" href="#">Flance</a>
         <button
           class="navbar-toggler"
           type="button"
@@ -49,6 +54,12 @@
 </template>
 
 <style scoped>
+.nav-link {
+  color: wheat;
+}
+.navbar-brand {
+  color: wheat;
+}
 </style>
 
 <script>

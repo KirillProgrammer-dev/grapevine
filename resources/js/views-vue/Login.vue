@@ -25,16 +25,17 @@
           id="exampleInputPassword1"
         />
       </div>
-      <input
-        value="Войти"
-        type="button"
-        class="btn btn-primary text-white"
+      <v-btn
+        :color="$vuetify.theme.themes.light.primary"
+        style="color: black;"
         @click="getToken()"
-      />
+      >
+        Войти
+      </v-btn>
       <div
         id="error"
         class="form-text"
-        :style="'color:red; display:' + (isCorrect ? 'none' : 'block')"
+        :style="'color:' + $vuetify.theme.themes.light.error + '; display:' + (isCorrect ? 'none' : 'block')"
       >
         Вы ввели неверный пароль или логин
       </div>
