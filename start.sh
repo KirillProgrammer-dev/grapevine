@@ -2,7 +2,7 @@ if [ -n "$1" ];
 then
     if [ "$1" == "n" ];
     then
-    echo -e "\033[34mReseting migrates"
+    echo -e "\033[34mReseting migrations"
     eval php artisan migrate:reset
     echo -e "\033[34mMigrating"
     eval php artisan migrate
