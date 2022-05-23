@@ -33,10 +33,11 @@ export default new Vuex.Store({
             return axios.
                 post("/api/add-services", {
                     title: payload.title,
-                    describtion: payload.describtion,
+                    description: payload.description,
                     deadline: payload.deadline,
                     min_price: payload.min_price,
                     max_price: payload.max_price,
+                    token: token,
                 }, {
                     headers: {
                         Authorization: "Bearer " + token,

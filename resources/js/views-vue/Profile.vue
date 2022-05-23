@@ -109,7 +109,7 @@
                 <label> Название услуги </label>
                 <v-text-field v-model="task.title" />
                 <label> Описание услуги </label>
-                <v-text-field v-model="task.describtion" />
+                <v-text-field v-model="task.description" />
               </v-card>
 
               <v-btn color="primary" @click="e1 = 2"> Далее </v-btn>
@@ -126,18 +126,15 @@
                   class="d-flex flex-row flex-nowrap justify-center"
                   style="width: 50%"
                 >
-                  <v-text-field
-                    v-model="task.min_price"
-                    suffix="₽"/>
-                  <v-text-field 
-                    v-model="task.max_price"
-                    suffix="₽"/>
+                  <v-text-field v-model="task.min_price" suffix="₽" />
+                  <v-text-field v-model="task.max_price" suffix="₽" />
                 </v-row>
                 <label> Укажите средний срок исполнения </label>
-                <v-text-field 
-                v-model="task.deadline"
-                type="number"
-                suffix="дней"/>
+                <v-text-field
+                  v-model="task.deadline"
+                  type="number"
+                  suffix="дней"
+                />
               </v-card>
 
               <v-btn color="primary" @click="add_service()"> Отправить </v-btn>
@@ -145,6 +142,18 @@
           </v-stepper>
         </v-card>
       </v-overlay>
+      <div v-if="user.class == 'Заказчик'" class="services">
+        <div v-for="service in services" :key="service.id" class="service">
+          <v-card>
+            <v-card-title>
+              {{ service.title }}
+            </v-card-title>
+            <v-card-text>
+              {{ service.description }}
+            </v-card-text>
+          </v-card>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -237,7 +246,7 @@ export default {
       e1: 1,
       task: {
         title: "",
-        describtion: "",
+        description: "",
         deadline: 1,
         min_price: 100,
         max_price: 1000,
@@ -272,20 +281,32 @@ export default {
       this.overlay = true;
     },
     add_service() {
-      store.dispatch("add_service", {
-        title: this.user.title,
-        describtion: this.user.describtion,
-        deadline: this.user.deadline,
-        min_price: this.user.min_price,
-        max_price: this.user.max_price,
-      }).then((r) => {
-        this.services = store.state.services;
-        this.overlay = false;
+      store
+        .dispatch("add_service", {
+          title: this.task.title,
+          description: this.task.description,
+          deadline: this.task.deadline,
+          min_price: this.task.min_price,
+          max_price: this.task.max_price,
+        })
+        .then((r) => {
+          this.services = store.state.services;
+          this.overlay = false;
+        });
+    },
+    getServices() {
+      return axios.post("/api/services-by-id", null, {
+        headers: {
+          Authorization: "Bearer " + store.state.token,
+        },
+      }).then(request => {
+        this.services = request.data
       });
     },
   },
   mounted() {
     this.getUser();
+    this.getServices();
   },
 };
 </script>

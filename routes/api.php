@@ -23,4 +23,5 @@ Route::post("token", [UserController::class, "getToken"]);
 Route::post("registration", [UserController::class, "registrateUser"]);
 Route::post('/logout', [UserController::class, 'logout'])->middleware('auth:sanctum');
 Route::post('/user', [UserController::class, 'getUser'])->middleware('auth:sanctum');
-Route::post('/add-services', [TaskController::class, 'addServices'])->middleware('auth:sanctum');
+Route::post('/add-services', [TaskController::class, 'addService'])->middleware('auth:sanctum');
+Route::post('/services-by-id', [TaskController::class, 'getUserServices'])->middleware('auth:sanctum');

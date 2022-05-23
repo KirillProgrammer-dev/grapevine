@@ -5836,6 +5836,15 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
@@ -5854,7 +5863,7 @@ __webpack_require__.r(__webpack_exports__);
       e1: 1,
       task: {
         title: "",
-        describtion: "",
+        description: "",
         deadline: 1,
         min_price: 100,
         max_price: 1000
@@ -5888,19 +5897,31 @@ __webpack_require__.r(__webpack_exports__);
       var _this2 = this;
 
       _store__WEBPACK_IMPORTED_MODULE_0__["default"].dispatch("add_service", {
-        title: this.user.title,
-        describtion: this.user.describtion,
-        deadline: this.user.deadline,
-        min_price: this.user.min_price,
-        max_price: this.user.max_price
+        title: this.task.title,
+        description: this.task.description,
+        deadline: this.task.deadline,
+        min_price: this.task.min_price,
+        max_price: this.task.max_price
       }).then(function (r) {
         _this2.services = _store__WEBPACK_IMPORTED_MODULE_0__["default"].state.services;
         _this2.overlay = false;
+      });
+    },
+    getServices: function getServices() {
+      var _this3 = this;
+
+      return axios.post("/api/services-by-id", null, {
+        headers: {
+          Authorization: "Bearer " + _store__WEBPACK_IMPORTED_MODULE_0__["default"].state.token
+        }
+      }).then(function (request) {
+        _this3.services = request.data;
       });
     }
   },
   mounted: function mounted() {
     this.getUser();
+    this.getServices();
   }
 });
 
@@ -6256,10 +6277,11 @@ vue__WEBPACK_IMPORTED_MODULE_0__["default"].use(vuex__WEBPACK_IMPORTED_MODULE_1_
       var token = store.state.token;
       return axios.post("/api/add-services", {
         title: payload.title,
-        describtion: payload.describtion,
+        description: payload.description,
         deadline: payload.deadline,
         min_price: payload.min_price,
-        max_price: payload.max_price
+        max_price: payload.max_price,
+        token: token
       }, {
         headers: {
           Authorization: "Bearer " + token
@@ -30602,11 +30624,11 @@ var render = function () {
                             _vm._v(" "),
                             _c("v-text-field", {
                               model: {
-                                value: _vm.task.describtion,
+                                value: _vm.task.description,
                                 callback: function ($$v) {
-                                  _vm.$set(_vm.task, "describtion", $$v)
+                                  _vm.$set(_vm.task, "description", $$v)
                                 },
-                                expression: "task.describtion",
+                                expression: "task.description",
                               },
                             }),
                           ],
@@ -30717,6 +30739,44 @@ var render = function () {
           ],
           1
         ),
+        _vm._v(" "),
+        _vm.user.class == "Заказчик"
+          ? _c(
+              "div",
+              { staticClass: "services" },
+              _vm._l(_vm.services, function (service) {
+                return _c(
+                  "div",
+                  { key: service.id, staticClass: "service" },
+                  [
+                    _c(
+                      "v-card",
+                      [
+                        _c("v-card-title", [
+                          _vm._v(
+                            "\n            " +
+                              _vm._s(service.title) +
+                              "\n          "
+                          ),
+                        ]),
+                        _vm._v(" "),
+                        _c("v-card-text", [
+                          _vm._v(
+                            "\n            " +
+                              _vm._s(service.description) +
+                              "\n          "
+                          ),
+                        ]),
+                      ],
+                      1
+                    ),
+                  ],
+                  1
+                )
+              }),
+              0
+            )
+          : _vm._e(),
       ],
       1
     ),
