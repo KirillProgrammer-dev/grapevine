@@ -55,6 +55,23 @@ class UserController extends Controller
         return response($token, 201);
     }
 
+    public function editProfile(Request $request) {
+        $id = $request->user()->currentAccessToken()->tokenable_id;
+        //$user_auth = auth()->user();
+        $user = User::where("id", $id)->get()->first();
+        $user->password = Hash::make($request->password);
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->class = $request->class;
+        $user->skills = $request->skills;
+        $user->describtion = $request->describtion;
+        $user->img_url = $request->img_url;
+        $user->works = $request->works;
+        $user->save();
+
+        return response(200);
+    }
+
     public function logout(Request $request){
         $request->user()->currentAccessToken()->delete();
     }

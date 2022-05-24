@@ -69,6 +69,7 @@
             </v-btn>
             <v-btn
               :color="$vuetify.theme.themes.light.primary"
+              @click="goToEdit()"
             >
               Редактировать профиль
             </v-btn>
@@ -338,6 +339,9 @@ export default {
         this.services = request.data
       });
     },
+    goToEdit(){
+      window.location = '/edit';
+    }
   },
   mounted() {
     this.getUser();

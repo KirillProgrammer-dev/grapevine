@@ -5,6 +5,7 @@ import Register from '../views-vue/Register.vue'
 import Profile from '../views-vue/Profile.vue'
 import VueRouter from 'vue-router'
 import store from "../store"
+import Edit from "../views-vue/Edit.vue"
 
 Vue.use(VueRouter);
 
@@ -35,6 +36,11 @@ const routes = [{
             result ? next() : next("/");
         });
     },
+},
+{
+    path: '/edit',
+    name: 'Edit',
+    component: Edit,
 },
 ];
 

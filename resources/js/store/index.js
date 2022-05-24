@@ -79,6 +79,29 @@ export default new Vuex.Store({
                     window.location = "/";
                 });
         },
+        edit_profile(store, payload) {
+            const token = store.state.token;
+            return axios
+                .post("/api/edit", {
+                    name: payload.name,
+                    email: payload.email,
+                    password: payload.password,
+                    class: payload.class,
+                    skills: payload.skills,
+                    works: payload.works,
+                    img_url: payload.img_url,
+                    describtion: payload.describtion,
+                    device_name: navigator.userAgent,
+                }, {
+                    headers: {
+                        Authorization: "Bearer " + token,
+                    }
+                })
+                .then((response) => {
+                    store.commit("setToken", { token: response.data });
+                    window.location = "/profile";
+                });
+        },
         checkAuth(store) {
             const token = store.state.token;
             if (token) {
