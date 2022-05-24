@@ -8,7 +8,8 @@ use App\Models\User;
 
 class TaskController extends Controller
 {
-    public function addService(Request $request){
+    public function addService(Request $request)
+    {
         $task = new Task;
         $task->title = $request->title;
         $task->description = $request->description;
@@ -25,9 +26,15 @@ class TaskController extends Controller
         return response("created", 201);
     }
 
-    public function getUserServices(Request $request) {
+    public function getUserServices(Request $request)
+    {
         $id = $request->user()->currentAccessToken()->tokenable_id;
         $tasks = Task::where("customer", $id)->get();
         return json_encode($tasks);
+    }
+
+    public function allServices(Request $request)
+    {
+        return json_encode(Task::all());
     }
 }

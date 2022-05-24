@@ -1,0 +1,40 @@
+.cardStepper {
+  margin: 1em;
+  padding: 1em;
+}
+.container {
+  width: 1100px;
+  padding-top: 30px;
+}
+.container .row .col-lg-6 .worker .info .name {
+  text-align: center;
+}
+.container .row .col-lg-6 .worker .info .rating {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.container .row .col-lg-6 .worker .info .rating .list_stars .list_star {
+  display: inline;
+}
+.container .row .col-lg-6 .worker .info .rating .list_stars .list_star .img {
+  width: 50px;
+  height: 50px;
+}
+.container .row .col-lg-6 .worker .skills .list .item {
+  font-size: 18px;
+}
+.container .row .col-lg-6 .worker .contacts {
+  display: flex;
+}
+.container .row .col-lg-6 .worker .description .text {
+  font-size: 18px;
+}
+.container .row .col-lg-6 .worker .avatar {
+  display: flex;
+  justify-content: center;
+}
+.container .row .col-lg-6 .worker .avatar .img {
+  width: 300px;
+  height: 300px;
+}

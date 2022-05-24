@@ -28,13 +28,13 @@ class UserController extends Controller
             $user->save();
 
             return response($token, 201);
-
         } else {
             return response("incorrect password", 403);
         }
     }
 
-    public function registrateUser(Request $request) {
+    public function registrateUser(Request $request)
+    {
         $user = new User;
         $user->password = Hash::make($request->password);
         $user->name = $request->name;
@@ -55,11 +55,10 @@ class UserController extends Controller
         return response($token, 201);
     }
 
-    public function editProfile(Request $request) {
+    public function editProfile(Request $request)
+    {
         $id = $request->user()->currentAccessToken()->tokenable_id;
-        //$user_auth = auth()->user();
         $user = User::where("id", $id)->get()->first();
-        $user->password = Hash::make($request->password);
         $user->name = $request->name;
         $user->email = $request->email;
         $user->class = $request->class;
@@ -72,11 +71,13 @@ class UserController extends Controller
         return response(200);
     }
 
-    public function logout(Request $request){
+    public function logout(Request $request)
+    {
         $request->user()->currentAccessToken()->delete();
     }
 
-    public function getUser(Request $request){
+    public function getUser(Request $request)
+    {
         $user = User::where("remember_token", $request->token)->get()->first();
         return json_encode($user);
     }

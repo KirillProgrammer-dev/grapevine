@@ -98,7 +98,6 @@ export default new Vuex.Store({
                     }
                 })
                 .then((response) => {
-                    store.commit("setToken", { token: response.data });
                     window.location = "/profile";
                 });
         },

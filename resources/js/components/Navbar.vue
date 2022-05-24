@@ -75,6 +75,7 @@ export default {
         localStorage.clear();
         store.dispatch("checkAuth").then((response) => {
           response ? (this.auth = true) : (this.auth = false);
+          $router.push('/');
         });
       });
     },

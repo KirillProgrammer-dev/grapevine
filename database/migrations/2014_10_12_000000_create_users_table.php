@@ -18,11 +18,11 @@ return new class extends Migration
             $table->string('name');
             $table->string('email')->unique();
             $table->string('password');
-            $table->string('img_url');
+            $table->string('img_url')->nullable();
             $table->string('class');
             $table->string('describtion');
-            $table->string('skills');
-            $table->string('works');
+            $table->string('skills')->nullable();
+            $table->string('works')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

@@ -19,10 +19,15 @@ use App\Http\Controllers\TaskController;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
-Route::post("token", [UserController::class, "getToken"]);
-Route::post("registration", [UserController::class, "registrateUser"]);
-Route::post('/logout', [UserController::class, 'logout'])->middleware('auth:sanctum');
-Route::post('/user', [UserController::class, 'getUser'])->middleware('auth:sanctum');
-Route::post('/edit', [UserController::class, 'editProfile'])->middleware('auth:sanctum');;
-Route::post('/add-services', [TaskController::class, 'addService'])->middleware('auth:sanctum');
-Route::post('/services-by-id', [TaskController::class, 'getUserServices'])->middleware('auth:sanctum');
+Route::controller(UserController::class)->group(function () {
+    Route::post("token", "getToken");
+    Route::post("registration", "registrateUser");
+    Route::post('/logout', 'logout')->middleware('auth:sanctum');
+    Route::post('/user', 'getUser')->middleware('auth:sanctum');
+    Route::post('/edit', 'editProfile')->middleware('auth:sanctum');
+});
+Route::controller(TaskController::class)->group(function () {
+    Route::post('/add-services', 'addService')->middleware('auth:sanctum');
+    Route::post('/services-by-id', 'getUserServices')->middleware('auth:sanctum');
+    Route::post("all-services", "allServices");
+});

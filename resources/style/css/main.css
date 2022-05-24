@@ -1,0 +1,9 @@
+.services {
+  display: flex;
+  justify-content: center;
+  padding: 5em;
+  flex-wrap: wrap;
+}
+.services .service {
+  margin: 0.5em;
+}

@@ -27,16 +27,6 @@
           Мы никогда не поделимся вашей почтой с другими
         </div>
       </div>
-
-      <div class="mb-3">
-        <label for="password" class="form-label">Пароль</label>
-        <input
-          v-model="form.password"
-          type="password"
-          class="form-control"
-          id="password"
-        />
-      </div>
       <div class="mb-3">
         <label for="describtion" class="form-label">Описание</label>
         <input
@@ -57,14 +47,23 @@
       </div>
       <div class="mb-3">
         <label for="class" class="form-label">Выберите роль</label>
-        <select v-model="form.class" class="form-select" aria-label="Вы хотите быть">
+        <select
+          v-model="form.class"
+          class="form-select"
+          aria-label="Вы хотите быть"
+        >
           <option value="Исполнитель" selected>Исполнитель</option>
           <option value="Заказчик">Заказчик</option>
         </select>
       </div>
       <div class="mb-3">
         <label for="class" class="form-label">Выберите знания</label>
-        <select v-model="form.skills" multiple class="form-select" aria-label="Выберите знания">
+        <select
+          v-model="form.skills"
+          multiple
+          class="form-select"
+          aria-label="Выберите знания"
+        >
           <option value="PHP" selected>PHP</option>
           <option value="Python">Python</option>
           <option value="HTML">HTML</option>
@@ -76,12 +75,18 @@
           <option value="Java">Java</option>
         </select>
       </div>
-      <input
-        value="Редактировать"
-        type="button"
-        class="btn btn-primary text-white"
+      <v-btn
+        :color="$vuetify.theme.themes.light.primary"
         @click="editProfile()"
-      />
+      >
+        Редактировать
+      </v-btn>
+      <v-btn
+        :color="$vuetify.theme.themes.light.primary"
+        @click="$router.push('/profile')"
+      >
+        Назад
+      </v-btn>
     </form>
   </div>
 </template>
@@ -131,6 +136,32 @@ export default {
         img_url: this.form.img_url,
       });
     },
+    getUser() {
+      return axios
+        .post(
+          "/api/user",
+          {
+            token: store.state.token,
+          },
+          {
+            headers: {
+              Authorization: "Bearer " + store.state.token,
+            },
+          }
+        )
+        .then((response) => {
+          if (response.status == 200) {
+            this.form = response.data;
+            this.form.skills = [];
+            this.form.works = "";
+          } else {
+            console.log("none");
+          }
+        });
+    },
   },
+  mounted(){
+    this.getUser();
+  }
 };
 </script>
