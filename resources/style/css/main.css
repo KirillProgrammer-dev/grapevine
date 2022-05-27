@@ -1,9 +1,15 @@
-.services {
+.content {
   display: flex;
+  flex-direction: column;
   justify-content: center;
-  padding: 5em;
-  flex-wrap: wrap;
+  align-items: center;
 }
-.services .service {
-  margin: 0.5em;
+.content .services {
+  display: grid;
+  grid-template: repeat(2, auto 1fr) / repeat(4, 1fr);
+  gap: 20px 5px;
+  margin: 5em;
+}
+.content .services .service {
+  padding: 1em;
 }

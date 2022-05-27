@@ -37,7 +37,10 @@ class TaskController extends Controller
 
     public function allServices(Request $request)
     {
-        return json_encode(Task::all());
+        $page = $request->page - 1;
+        $pageAmount = ceil(Task::all()->count() / 20);
+        $tasks = Task::where("id", ">", $page*20)->take(20)->get();
+        return json_encode(array("data" => $tasks, "pages" => $pageAmount));
     }
 
     public function setExecutorForTask(Request $request)

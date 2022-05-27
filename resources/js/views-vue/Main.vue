@@ -1,48 +1,54 @@
 <template>
-  <div class="services">
-    <div v-for="service in services" :key="service.id" class="service">
-      <v-card
-        style="
-          display: flex;
-          flex-direction: column;
-          flex-wrap: nowrap;
-          width: 25em;
-          justify-content: center;
-          align-content: center;
-        "
-      >
-        <v-card-title>
-          {{ service.title }}
-          <v-img
-            src="https://makewebsite.ru/wp-content/uploads/2020/09/2.jpg"
-          ></v-img>
-        </v-card-title>
-        <v-card-subtitle style="font-size: 1.1em; margin-top: 0.5em">
-          {{ service.description }}
-        </v-card-subtitle>
-        <v-divider class="mx-4" />
-        <v-card-text>
-          <div>
-            От {{ service.min_price }}₽ <br />
-            До {{ service.max_price }}₽
-          </div>
-          <div>Средний срок исполнения {{ service.deadline }} дней</div>
-        </v-card-text>
-        <v-card-actions>
-          <v-btn
-            :color="$vuetify.theme.themes.light.primary"
-            style="color: black"
-            @click="openSettingExecuor(service.id)"
-          >
-            Написать исполнителю
-          </v-btn>
-          <v-btn class="mx-2" fab small style="background: pink; color: white">
-            <v-icon> mdi-heart </v-icon>
-          </v-btn>
-        </v-card-actions>
-      </v-card>
-    </div>
-    <v-overlay :value="overlay">
+  <div class="content">
+    <div class="services">
+      <div v-for="service in services.data" :key="service.id" class="service">
+        <v-card
+          style="
+            display: flex;
+            flex-direction: column;
+            flex-wrap: nowrap;
+            width: 25em;
+            justify-content: center;
+            align-content: center;
+          "
+        >
+          <v-card-title>
+            {{ service.title }}
+            <v-img
+              src="https://makewebsite.ru/wp-content/uploads/2020/09/2.jpg"
+            ></v-img>
+          </v-card-title>
+          <v-card-subtitle style="font-size: 1.1em; margin-top: 0.5em">
+            {{ service.description }}
+          </v-card-subtitle>
+          <v-divider class="mx-4" />
+          <v-card-text>
+            <div>
+              От {{ service.min_price }}₽ <br />
+              До {{ service.max_price }}₽
+            </div>
+            <div>Средний срок исполнения {{ service.deadline }} дней</div>
+          </v-card-text>
+          <v-card-actions>
+            <v-btn
+              :color="$vuetify.theme.themes.light.primary"
+              style="color: black"
+              @click="openSettingExecuor(service.id)"
+            >
+              Написать исполнителю
+            </v-btn>
+            <v-btn
+              class="mx-2"
+              fab
+              small
+              style="background: pink; color: white"
+            >
+              <v-icon> mdi-heart </v-icon>
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </div>
+      <v-overlay :value="overlay">
         <v-card style="background: white; color: black">
           <v-card-title> Создание заказа </v-card-title>
           <v-stepper v-model="e1">
@@ -99,6 +105,22 @@
           </v-stepper>
         </v-card>
       </v-overlay>
+    </div>
+    <div>
+      <nav>
+        <ul class="pagination justify-content-center">
+          <li class="page-item">
+            <a class="page-link" @click="setPage(curPage - 1)">Previous</a>
+          </li>
+          <li v-for="page in services.pages" :key="page" class="page-item">
+            <a class="page-link" @click="setPage(page)">{{ page }}</a>
+          </li>
+          <li class="page-item">
+            <a class="page-link" @click="setPage(curPage + 1)">Next</a>
+          </li>
+        </ul>
+      </nav>
+    </div>
   </div>
 </template>
 
@@ -117,41 +139,58 @@ export default {
       price: null,
     },
     e1: 1,
+    curPage: 1,
   }),
   methods: {
     getServices() {
-      return axios.post("/api/all-services").then((request) => {
-        this.services = request.data;
-      });
+      return axios
+        .post("/api/all-services", {
+          page: this.curPage,
+        })
+        .then((request) => {
+          this.services = request.data;
+        });
     },
-    openSettingExecuor(id){
+    setPage(page = 1) {
+      if (page != 7 && page != 0) {
+        this.$router.push("/?page=" + page);
+        this.curPage = Number(this.$route.query.page);
+        this.getServices();
+      }
+    },
+    openSettingExecuor(id) {
       this.overlay = true;
       this.idsend = id;
     },
     setExecutor() {
-      return axios.post(
-        "/api/set-executor-for-task",
-        {
-          id: this.idsend,
-          order: this.order,
-        },
-        {
-          headers: {
-            Authorization: "Bearer " + store.state.token,
+      return axios
+        .post(
+          "/api/set-executor-for-task",
+          {
+            id: this.idsend,
+            order: this.order,
           },
-        }
-      ).then(r => {
-        if (r.status == 401){
-          $router.push("/login")
-        } else {
-          alert("Мы передали ваши контакты исполнителю, скоро он Вам напишет");
-          //this.overlay - false;
-        }
-      });
+          {
+            headers: {
+              Authorization: "Bearer " + store.state.token,
+            },
+          }
+        )
+        .then((r) => {
+          if (r.status == 401) {
+            $router.push("/login");
+          } else {
+            alert(
+              "Мы передали ваши контакты исполнителю, скоро он Вам напишет"
+            );
+            //this.overlay - false;
+          }
+        });
     },
   },
   mounted() {
     this.getServices();
+    this.curPage = Number(this.$route.query.page);
   },
 };
 </script>
