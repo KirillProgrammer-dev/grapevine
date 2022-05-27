@@ -157,6 +157,7 @@ export default {
       this.idsend = id;
     },
     setExecutor() {
+      console.log(this.order);
       return axios
         .post(
           "/api/set-executor-for-task",
@@ -177,6 +178,7 @@ export default {
             alert(
               "Мы передали ваши контакты исполнителю, скоро он Вам напишет"
             );
+            this.overlay = false;
           }
         });
     },
