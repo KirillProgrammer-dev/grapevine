@@ -32,6 +32,7 @@
           <v-btn
             :color="$vuetify.theme.themes.light.primary"
             style="color: black"
+            @click="openSettingExecuor(service.id)"
           >
             Написать исполнителю
           </v-btn>
@@ -41,19 +42,111 @@
         </v-card-actions>
       </v-card>
     </div>
+    <v-overlay :value="overlay">
+        <v-card style="background: white; color: black">
+          <v-card-title> Создание заказа </v-card-title>
+          <v-stepper v-model="e1">
+            <v-stepper-header>
+              <v-stepper-step :complete="e1 > 1" step="1">
+                Название и описание
+              </v-stepper-step>
+
+              <v-divider></v-divider>
+
+              <v-stepper-step :complete="e1 > 2" step="2">
+                Дополнительная информация
+              </v-stepper-step>
+
+              <!-- <v-divider></v-divider>
+
+              <v-stepper-step step="3"> 
+                Выбор картинки
+              </v-stepper-step> -->
+            </v-stepper-header>
+            <v-stepper-content step="1">
+              <v-card
+                class="mb-12 cardStepper"
+                color="grey lighten-1"
+                height="200px"
+              >
+                <label> Название заказа </label>
+                <v-text-field v-model="order.title" />
+                <label> Описание заказа </label>
+                <v-text-field v-model="order.description" />
+              </v-card>
+
+              <v-btn color="primary" @click="e1 = 2"> Далее </v-btn>
+            </v-stepper-content>
+
+            <v-stepper-content step="2">
+              <v-card
+                class="mb-12 cardStepper"
+                color="grey lighten-1"
+                height="200px"
+              >
+                <label> Укажите бюджет </label>
+                <v-text-field v-model="order.price" suffix="₽" />
+                <label> Укажите дедлайн </label>
+                <v-text-field
+                  v-model="order.deadline"
+                  type="number"
+                  suffix="дней"
+                />
+              </v-card>
+
+              <v-btn color="primary" @click="setExecutor()"> Отправить </v-btn>
+            </v-stepper-content>
+          </v-stepper>
+        </v-card>
+      </v-overlay>
   </div>
 </template>
 
 <script>
-import style from "../../style/css/main.css"
+import store from "../store";
+import style from "../../style/css/main.css";
 export default {
   data: () => ({
     services: [],
+    overlay: false,
+    idsend: 0,
+    order: {
+      title: null,
+      description: null,
+      deadline: null,
+      price: null,
+    },
+    e1: 1,
   }),
   methods: {
     getServices() {
       return axios.post("/api/all-services").then((request) => {
         this.services = request.data;
+      });
+    },
+    openSettingExecuor(id){
+      this.overlay = true;
+      this.idsend = id;
+    },
+    setExecutor() {
+      return axios.post(
+        "/api/set-executor-for-task",
+        {
+          id: this.idsend,
+          order: this.order,
+        },
+        {
+          headers: {
+            Authorization: "Bearer " + store.state.token,
+          },
+        }
+      ).then(r => {
+        if (r.status == 401){
+          $router.push("/login")
+        } else {
+          alert("Мы передали ваши контакты исполнителю, скоро он Вам напишет");
+          //this.overlay - false;
+        }
       });
     },
   },

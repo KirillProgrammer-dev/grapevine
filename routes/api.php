@@ -30,4 +30,5 @@ Route::controller(TaskController::class)->group(function () {
     Route::post('/add-services', 'addService')->middleware('auth:sanctum');
     Route::post('/services-by-id', 'getUserServices')->middleware('auth:sanctum');
     Route::post("all-services", "allServices");
+    Route::post("/set-executor-for-task", "setExecutorForTask")->middleware('auth:sanctum');
 });

@@ -2,6 +2,8 @@ if [ -n "$1" ];
 then
     if [ "$1" == "n" ];
     then
+    echo -e "\033[34mUpdating composer\e[97m"
+    eval composer update
     echo -e "\033[34mReseting migrations\e[97m"
     eval php artisan migrate:reset
     echo -e "\033[34mMigrating\e[97m"
