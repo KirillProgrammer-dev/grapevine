@@ -62,12 +62,6 @@
               <v-stepper-step :complete="e1 > 2" step="2">
                 Дополнительная информация
               </v-stepper-step>
-
-              <!-- <v-divider></v-divider>
-
-              <v-stepper-step step="3"> 
-                Выбор картинки
-              </v-stepper-step> -->
             </v-stepper-header>
             <v-stepper-content step="1">
               <v-card
@@ -183,7 +177,6 @@ export default {
             alert(
               "Мы передали ваши контакты исполнителю, скоро он Вам напишет"
             );
-            //this.overlay - false;
           }
         });
     },

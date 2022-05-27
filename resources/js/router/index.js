@@ -30,9 +30,6 @@ const routes = [{
     component: Profile,
     beforeEnter: (to, from, next) => {
         store.dispatch("checkAuth").then((result) => {
-            console.log(result)
-        })
-        store.dispatch("checkAuth").then((result) => {
             result ? next() : next("/");
         });
     },
@@ -41,6 +38,11 @@ const routes = [{
     path: '/edit',
     name: 'Edit',
     component: Edit,
+    beforeEnter: (to, from, next) => {
+        store.dispatch("checkAuth").then((result) => {
+            result ? next() : next("/profile");
+        });
+    },
 },
 ];
 
