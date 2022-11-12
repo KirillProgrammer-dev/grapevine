@@ -7,7 +7,8 @@
       "
     >
       <div class="container-fluid">
-        <a class="navbar-brand" href="#"><img style="width: 7em;" src="img/icons/big white.png"/></a>
+        <!-- <a class="navbar-brand" href="#"><img style="width: 7em;" src="img/icons/big white.png"/></a> -->
+        <span>Тут должен быть лого Грейпвайна</span>
         <button
           class="navbar-toggler"
           type="button"
@@ -26,26 +27,31 @@
                 >Главная</a
               >
             </li>
-            <li class="nav-item">
+            <!-- <li class="nav-item">
               <a class="nav-link" link href="/login">Войти</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" link href="/register">Регистрация</a>
-            </li>
-          </ul>
+            </li> -->
+          </ul> 
           <ul v-else class="navbar-nav">
             <li class="nav-item">
               <a class="nav-link active" aria-current="page" link href="/"
-                >Главная</a
+                >Вещи</a
               >
             </li>
             <li class="nav-item">
+              <a class="nav-link active" aria-current="page" link href="/"
+                >Расходы(еще не работает)</a
+              >
+            </li>
+            <!-- <li class="nav-item">
               <a class="nav-link active" link href="/profile">Профиль</a>
             </li>
 
             <li class="nav-item">
               <a class="nav-link" link @click="logoutUser()">Выйти</a>
-            </li>
+            </li> -->
           </ul>
         </div>
       </div>

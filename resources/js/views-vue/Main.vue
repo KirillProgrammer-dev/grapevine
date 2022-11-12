@@ -1,120 +1,256 @@
 <template>
-  <div class="content">
-    <div class="services">
-      <div v-for="service in services.data" :key="service.id" class="service">
-        <v-card
-          style="
-            display: flex;
-            flex-direction: column;
-            flex-wrap: nowrap;
-            width: 25em;
-            justify-content: center;
-            align-content: center;
-          "
-        >
-          <v-card-title>
-            {{ service.title }}
-            <v-img
-              src="https://makewebsite.ru/wp-content/uploads/2020/09/2.jpg"
-            ></v-img>
-          </v-card-title>
-          <v-card-subtitle style="font-size: 1.1em; margin-top: 0.5em">
-            {{ service.description }}
-          </v-card-subtitle>
-          <v-divider class="mx-4" />
-          <v-card-text>
-            <div>
-              От {{ service.min_price }}₽ <br />
-              До {{ service.max_price }}₽
+  <div>
+    <v-data-table
+      :headers="headers"
+      :items="things"
+      item-key="name"
+      class="elevation-1"
+      :search="search"
+      :custom-filter="filterOnlyCapsText"
+    >
+      <!-- <template v-slot:top>
+        <v-text-field
+          v-model="search"
+          label="Искать"
+          class="mx-4"
+        ></v-text-field>
+      </template> -->
+      <template v-slot:item="row">
+        <tr>
+          <td>{{ row.item.id }}</td>
+          <td>{{ row.item.name }}</td>
+          <td>{{ row.item.amount }}</td>
+          <td></td>
+          <td>
+            <v-list>
+              <v-list-group :value="false">
+                <!-- prepend-icon="mdi-account-circle" -->
+                <template v-slot:activator>
+                  <v-list-item-title>Кто взял</v-list-item-title>
+                </template>
+
+                <v-list-item-content v-for="i in row.item.owner" :key="i">
+                  <v-list-item-title>{{ i.name }}, {{ i.date }}, {{ i.amount }}</v-list-item-title>
+                </v-list-item-content>
+                
+              </v-list-group>
+            </v-list>
+          </td>
+          <td>
+            <v-row justify="center">
+              <v-dialog
+                v-model="dialogAdd"
+                fullscreen
+                hide-overlay
+                transition="dialog-bottom-transition"
+              >
+                <template v-slot:activator="{ on, attrs }">
+                  <v-btn
+                    :color="$vuetify.theme.themes.light.primary"
+                    dark
+                    v-bind="attrs"
+                    v-on="on"
+                    @click="plusClicked(row.item.id)"
+                  >
+                    <v-icon dark>mdi-plus</v-icon>
+                  </v-btn>
+                  
+                </template>
+                <v-card>
+                  <v-toolbar
+                    dark
+                    :color="$vuetify.theme.themes.light.secondary"
+                  >
+                    <v-btn icon dark @click="dialogAdd = false">
+                      <v-icon>mdi-close</v-icon>
+                    </v-btn>
+                    <v-toolbar-title>Добавить человека</v-toolbar-title>
+                    <v-spacer></v-spacer>
+                    <v-toolbar-items>
+                      <v-btn dark text @click="addHuman()">
+                        <v-icon>mdi-table-large-plus</v-icon>Добавить
+                      </v-btn>
+                    </v-toolbar-items>
+                  </v-toolbar>
+
+                  <v-list three-line subheader>
+                    <v-subheader
+                      >Введите информацию о том, когда человек взял товар,
+                      сколько и на сколько</v-subheader
+                    >
+                    <div style="width: 40%">
+                      <v-list-item>
+                        <v-list-item-content>
+                          <v-list-item-title>Кто взял</v-list-item-title>
+                          <v-list-item-subtitle
+                            >Введите полное имя человека взявшего
+                            вещь</v-list-item-subtitle
+                          >
+                        </v-list-item-content>
+                        <v-list-item-action>
+                          <v-text-field
+                            type="text"
+                            v-model="personName"
+                            label="Имя"
+                          ></v-text-field>
+                        </v-list-item-action>
+                      </v-list-item>
+                    </div>
+                    <div style="width: 40%">
+                      <v-list-item>
+                        <v-list-item-content>
+                          <v-list-item-title>Когда взял</v-list-item-title>
+                          <v-list-item-subtitle
+                            >Введите полную точную дату когда человек взял
+                            вещь</v-list-item-subtitle
+                          >
+                        </v-list-item-content>
+                        <v-list-item-action>
+                          <v-text-field
+                            type="date"
+                            v-model="date"
+                            label="Дата"
+                          ></v-text-field>
+                        </v-list-item-action>
+                      </v-list-item>
+                    </div>
+                    <div style="width: 40%">
+                      <v-list-item>
+                        <v-list-item-content>
+                          <v-list-item-title>Сколько взял</v-list-item-title>
+                          <v-list-item-subtitle
+                            >Введите точное колличество сколько взял человек</v-list-item-subtitle
+                          >
+                        </v-list-item-content>
+                        <v-list-item-action>
+                          <v-text-field
+                            type="number"
+                            v-model="number"
+                            label="Число"
+                          ></v-text-field>
+                        </v-list-item-action>
+                      </v-list-item>
+                    </div>
+                  </v-list>
+                </v-card>
+              </v-dialog>
+            </v-row>
+          </td>
+        </tr>
+      </template>
+    </v-data-table>
+    <v-row justify="center">
+      <v-dialog
+        v-model="dialog"
+        fullscreen
+        hide-overlay
+        transition="dialog-bottom-transition"
+      >
+        <template v-slot:activator="{ on, attrs }">
+          <v-btn
+            :color="$vuetify.theme.themes.light.secondary"
+            dark
+            v-bind="attrs"
+            v-on="on"
+            block
+            x-large
+            @click="openOverlay"
+          >
+            Добавить вещь
+          </v-btn>
+        </template>
+        <v-card>
+          <v-toolbar dark :color="$vuetify.theme.themes.light.secondary">
+            <v-btn icon dark @click="dialog = false">
+              <v-icon>mdi-close</v-icon>
+            </v-btn>
+            <v-toolbar-title>Добавить вещь</v-toolbar-title>
+            <v-spacer></v-spacer>
+            <v-toolbar-items>
+              <v-btn dark text @click="addElement">
+                <v-icon>mdi-table-large-plus</v-icon>Добавить
+              </v-btn>
+            </v-toolbar-items>
+          </v-toolbar>
+          <!-- <v-list three-line subheader>
+            <v-subheader>Введите требуемую информацию</v-subheader>
+            <v-list-item>
+              <v-list-item-content>
+                <v-list-item-title>Content filtering</v-list-item-title>
+                <v-list-item-subtitle
+                  >Set the content filtering level to restrict apps that can be
+                  downloaded</v-list-item-subtitle
+                >
+              </v-list-item-content>
+            </v-list-item>
+            <v-list-item>
+              <v-list-item-content>
+                <v-list-item-title>Password</v-list-item-title>
+                <v-list-item-subtitle
+                  >Require password for purchase or use password to restrict
+                  purchase</v-list-item-subtitle
+                >
+              </v-list-item-content>
+            </v-list-item>
+          </v-list> -->
+          <!-- <v-divider></v-divider> -->
+          <v-list three-line subheader>
+            <v-subheader>Основная информация</v-subheader>
+            <div style="width: 40%">
+              <v-list-item>
+                <v-list-item-content>
+                  <v-list-item-title>Название вещи</v-list-item-title>
+                  <v-list-item-subtitle
+                    >Введите полное название вещи, желательно
+                    уникальное</v-list-item-subtitle
+                  >
+                </v-list-item-content>
+                <v-list-item-action>
+                  <v-text-field v-model="name" label="Название"></v-text-field>
+                </v-list-item-action>
+              </v-list-item>
             </div>
-            <div>Средний срок исполнения {{ service.deadline }} дней</div>
-          </v-card-text>
-          <v-card-actions>
-            <v-btn
-              :color="$vuetify.theme.themes.light.primary"
-              style="color: black"
-              @click="openSettingExecuor(service.id)"
-            >
-              Написать исполнителю
-            </v-btn>
-            <v-btn
-              class="mx-2"
-              fab
-              small
-              style="background: pink; color: white"
-            >
-              <v-icon> mdi-heart </v-icon>
-            </v-btn>
-          </v-card-actions>
+            <div style="width: 40%">
+              <v-list-item>
+                <v-list-item-content>
+                  <v-list-item-title>Колличество</v-list-item-title>
+                  <v-list-item-subtitle
+                    >Введите колличество вещей в сумме у всех на руках и в
+                    Погорелках</v-list-item-subtitle
+                  >
+                </v-list-item-content>
+                <v-list-item-action>
+                  <v-text-field
+                    type="number"
+                    v-model="amount"
+                    label="Колличество"
+                  ></v-text-field>
+                </v-list-item-action>
+              </v-list-item>
+            </div>
+            
+            <!-- <div style="width: 40%">
+              <v-list-item>
+                <v-list-item-content>
+                  <v-list-item-title>Когда взял</v-list-item-title>
+                  <v-list-item-subtitle
+                    >Введите полную точную дату когда человек взял
+                    вещь</v-list-item-subtitle
+                  >
+                </v-list-item-content>
+                <v-list-item-action>
+                  <v-text-field
+                    type="date"
+                    v-model="date"
+                    label="Дата"
+                  ></v-text-field>
+                </v-list-item-action>
+              </v-list-item>
+            </div> -->
+          </v-list>
         </v-card>
-      </div>
-      <v-overlay :value="overlay">
-        <v-card style="background: white; color: black">
-          <v-card-title> Создание заказа </v-card-title>
-          <v-stepper v-model="e1">
-            <v-stepper-header>
-              <v-stepper-step :complete="e1 > 1" step="1">
-                Название и описание
-              </v-stepper-step>
-
-              <v-divider></v-divider>
-
-              <v-stepper-step :complete="e1 > 2" step="2">
-                Дополнительная информация
-              </v-stepper-step>
-            </v-stepper-header>
-            <v-stepper-content step="1">
-              <v-card
-                class="mb-12 cardStepper"
-                color="grey lighten-1"
-                height="200px"
-              >
-                <label> Название заказа </label>
-                <v-text-field v-model="order.title" />
-                <label> Описание заказа </label>
-                <v-text-field v-model="order.description" />
-              </v-card>
-
-              <v-btn color="primary" @click="e1 = 2"> Далее </v-btn>
-            </v-stepper-content>
-
-            <v-stepper-content step="2">
-              <v-card
-                class="mb-12 cardStepper"
-                color="grey lighten-1"
-                height="200px"
-              >
-                <label> Укажите бюджет </label>
-                <v-text-field v-model="order.price" suffix="₽" />
-                <label> Укажите дедлайн </label>
-                <v-text-field
-                  v-model="order.deadline"
-                  type="number"
-                  suffix="дней"
-                />
-              </v-card>
-
-              <v-btn color="primary" @click="setExecutor()"> Отправить </v-btn>
-            </v-stepper-content>
-          </v-stepper>
-        </v-card>
-      </v-overlay>
-    </div>
-    <div>
-      <nav>
-        <ul class="pagination justify-content-center">
-          <li class="page-item">
-            <a class="page-link" @click="setPage(curPage - 1)">Previous</a>
-          </li>
-          <li v-for="page in services.pages" :key="page" class="page-item">
-            <a class="page-link" @click="setPage(page)">{{ page }}</a>
-          </li>
-          <li class="page-item">
-            <a class="page-link" @click="setPage(curPage + 1)">Next</a>
-          </li>
-        </ul>
-      </nav>
-    </div>
+      </v-dialog>
+    </v-row>
   </div>
 </template>
 
@@ -122,70 +258,125 @@
 import store from "../store";
 import style from "../../style/css/main.css";
 export default {
-  data: () => ({
-    services: [],
-    overlay: false,
-    idsend: 0,
-    order: {
-      title: null,
-      description: null,
-      deadline: null,
-      price: null,
-    },
-    e1: 1,
-    curPage: 1,
-  }),
-  methods: {
-    getServices() {
-      return axios
-        .post("/api/all-services", {
-          page: this.curPage,
-        })
-        .then((request) => {
-          this.services = request.data;
-        });
-    },
-    setPage(page = 1) {
-      if (page != 7 && page != 0) {
-        this.$router.push("/?page=" + page);
-        this.curPage = Number(this.$route.query.page);
-        this.getServices();
-      }
-    },
-    openSettingExecuor(id) {
-      this.overlay = true;
-      this.idsend = id;
-    },
-    setExecutor() {
-      console.log(this.order);
-      return axios
-        .post(
-          "/api/set-executor-for-task",
-          {
-            id: this.idsend,
-            order: this.order,
+  data() {
+    return {
+      search: "",
+      amount: "",
+      things: [],
+      dialog: false,
+      dialogAdd: false,
+      name: "",
+      amount: 0,
+      date: "",
+      personName: "",
+      activeId: 0,
+      number: 0, 
+    };
+  },
+  computed: {
+    headers() {
+      return [
+        {
+          text: "id",
+          align: "start",
+          filter: (value) => {
+            if (!this.id) return true;
+
+            return value < parseInt(this.id);
           },
-          {
-            headers: {
-              Authorization: "Bearer " + store.state.token,
-            },
-          }
-        )
-        .then((r) => {
-          if (r.status == 401) {
-            $router.push("/login");
-          } else {
-            alert(
-              "Мы передали ваши контакты исполнителю, скоро он Вам напишет"
-            );
-            this.overlay = false;
-          }
-        });
+          value: "id",
+          width: "1%",
+        },
+        {
+          text: "Название вещи",
+          sortable: false,
+          value: "name",
+          width: "1%",
+        },
+        {
+          text: "Колличество всего",
+          value: "amount",
+          filter: (value) => {
+            if (!this.amount) return true;
+
+            return value < parseInt(this.amount);
+          },
+          width: "1%",
+        },
+        {
+          text: "В погорелках",
+          sortable: false,
+          value: "inPogorelki",
+          width: "1%",
+        },
+        {
+          text: "У кого",
+          sortable: false,
+          value: "whoHas",
+          width: "1%",
+        },
+        {
+          text: "Добавить временного владельца",
+          sortable: false,
+          value: "addButton",
+          width: "1%",
+        },
+      ];
     },
   },
-  mounted() {
-    this.getServices();
-    this.curPage = Number(this.$route.query.page);
+  methods: {
+    filterOnlyCapsText(value, search, item) {
+      return (
+        value != null &&
+        search != null &&
+        typeof value === "string" &&
+        value.toString().toLocaleUpperCase().indexOf(search) !== -1
+      );
+    },
+    addHuman() {
+      //console.log(id);
+      this.dialogAdd = false;
+      axios
+        .post("api/add-thing-owner", {
+          id: this.activeId,
+          name: this.personName,
+          date_from: this.date,
+          amount: this.number,
+        })
+        .then(function (response) {
+          console.log(response);
+        });
+      window.location.reload();
+    },
+    addElement() {
+      this.dialog = false;
+      axios
+        .post("api/add-new-thing", {
+          name: this.name,
+          amount: this.amount,
+        })
+        .then(function (response) {
+          console.log(response);
+        });
+      window.location.reload();
+    },
+    loadThings() {
+      axios.post("api/get-all-things").then((response) => {
+        this.things = response.data;
+        console.log(this.things);
+      });
+      this.response.forEach((element) => {
+        element["button"];
+      });
+
+    },
+    plusClicked(id){
+      this.dialogAdd = true;
+      this.activeId = id;
+    }
+  },
+  beforeMount() {
+    this.loadThings();
   },
 };
 </script>
